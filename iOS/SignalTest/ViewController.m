@@ -47,7 +47,7 @@
         mode = WorkModeLoginAndJoinChannel;
     }
     
-    self.messageTubeKit = [AgoraMessageTubeKit sharedMessageTubeKitWithAppId:@"ce8673eb931840dbbe7fd3848ebc037f" workMode:mode];
+    self.messageTubeKit = [AgoraMessageTubeKit sharedMessageTubeKitWithAppId:<#YOUR APPID#> workMode:mode];
     // Done
     self.messageTubeKit.delegate = self;
     // Done
