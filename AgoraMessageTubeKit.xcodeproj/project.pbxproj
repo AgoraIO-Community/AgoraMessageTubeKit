@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A730EFC62101CD3C003174AD /* UnRepeatRand.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C5C2DD20F35BDC003A391B /* UnRepeatRand.m */; };
 		A74BCCE920BBB265000BB260 /* AgoraMessageTubeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A74BCCE720BBB265000BB260 /* AgoraMessageTubeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A74BCCF720BBB36F000BB260 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A74BCCF620BBB36F000BB260 /* AppDelegate.m */; };
 		A74BCCFA20BBB36F000BB260 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A74BCCF920BBB36F000BB260 /* ViewController.m */; };
@@ -20,13 +21,11 @@
 		A74BCD1720BBD1DF000BB260 /* LCLLogFile.m in Sources */ = {isa = PBXBuildFile; fileRef = A74BCD1420BBD1DF000BB260 /* LCLLogFile.m */; };
 		A74BCD1B20BBD970000BB260 /* SignalStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = A74BCD1920BBD96F000BB260 /* SignalStatus.h */; };
 		A74BCD2520BD3343000BB260 /* SignalEcode.h in Headers */ = {isa = PBXBuildFile; fileRef = A74BCD1E20BBE170000BB260 /* SignalEcode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A74BCD2620BD348C000BB260 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A74BCD0C20BBB706000BB260 /* libc++.tbd */; };
 		A7C5C29620EB7C5F003A391B /* AgoraMessageTubeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74BCCE420BBB265000BB260 /* AgoraMessageTubeKit.framework */; };
 		A7C5C29F20EDD1D8003A391B /* InfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C5C29E20EDD1D8003A391B /* InfoCell.m */; };
 		A7C5C2AC20EDF5F9003A391B /* AgoraSigKit in Frameworks */ = {isa = PBXBuildFile; fileRef = A7C5C2AB20EDF5F9003A391B /* AgoraSigKit */; };
 		A7C5C2B220EE319D003A391B /* ModeSelectedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C5C2B120EE319D003A391B /* ModeSelectedViewController.m */; };
 		A7C5C2BE20EF6BCD003A391B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C5C2BC20EF6BCD003A391B /* NSString+UUID.m */; };
-		A7C5C2DE20F35BDC003A391B /* UnRepeatRand.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C5C2DD20F35BDC003A391B /* UnRepeatRand.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,7 +86,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7C5C29620EB7C5F003A391B /* AgoraMessageTubeKit.framework in Frameworks */,
-				A74BCD2620BD348C000BB260 /* libc++.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +116,8 @@
 			children = (
 				A74BCCE720BBB265000BB260 /* AgoraMessageTubeKit.h */,
 				A74BCD0E20BBB728000BB260 /* AgoraMessageTubeKit.m */,
+				A7C5C2DC20F35BDC003A391B /* UnRepeatRand.h */,
+				A7C5C2DD20F35BDC003A391B /* UnRepeatRand.m */,
 				A74BCD1920BBD96F000BB260 /* SignalStatus.h */,
 				A74BCD1E20BBE170000BB260 /* SignalEcode.h */,
 				A74BCD2A20BD442D000BB260 /* Others */,
@@ -138,8 +138,6 @@
 				A7C5C29E20EDD1D8003A391B /* InfoCell.m */,
 				A7C5C2BD20EF6BCD003A391B /* NSString+UUID.h */,
 				A7C5C2BC20EF6BCD003A391B /* NSString+UUID.m */,
-				A7C5C2DC20F35BDC003A391B /* UnRepeatRand.h */,
-				A7C5C2DD20F35BDC003A391B /* UnRepeatRand.m */,
 				A74BCCFB20BBB36F000BB260 /* Main.storyboard */,
 				A74BCCFE20BBB36F000BB260 /* Assets.xcassets */,
 				A74BCD0020BBB36F000BB260 /* LaunchScreen.storyboard */,
@@ -286,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A730EFC62101CD3C003174AD /* UnRepeatRand.m in Sources */,
 				A74BCD1720BBD1DF000BB260 /* LCLLogFile.m in Sources */,
 				A74BCD0F20BBB728000BB260 /* AgoraMessageTubeKit.m in Sources */,
 			);
@@ -299,7 +298,6 @@
 				A7C5C2B220EE319D003A391B /* ModeSelectedViewController.m in Sources */,
 				A7C5C29F20EDD1D8003A391B /* InfoCell.m in Sources */,
 				A74BCD0520BBB36F000BB260 /* main.m in Sources */,
-				A7C5C2DE20F35BDC003A391B /* UnRepeatRand.m in Sources */,
 				A7C5C2BE20EF6BCD003A391B /* NSString+UUID.m in Sources */,
 				A74BCCF720BBB36F000BB260 /* AppDelegate.m in Sources */,
 			);
@@ -536,6 +534,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACH_O_TYPE = staticlib;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.SignalTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c7df7ddd-b696-462c-9807-3a8b4c7fd9ce";
@@ -556,6 +556,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACH_O_TYPE = staticlib;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.SignalTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c7df7ddd-b696-462c-9807-3a8b4c7fd9ce";
