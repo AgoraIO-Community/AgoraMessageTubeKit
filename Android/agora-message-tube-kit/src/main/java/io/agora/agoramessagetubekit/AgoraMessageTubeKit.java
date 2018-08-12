@@ -2,6 +2,8 @@ package io.agora.agoramessagetubekit;
 
 import android.content.Context;
 
+import android.text.TextUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,6 +11,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import io.agora.AgoraAPIOnlySignal;
 
@@ -27,10 +30,14 @@ public class AgoraMessageTubeKit {
     public static final int MESSAGE_TYPE_PEER_TO_PEER_RECEIVE_COM_MSG_SUCCESS = 2;
     public static final int MESSAGE_TYPE_PEER_TO_PEER_JSON_MESSAGE = 3;
     public static final int MESSAGE_TYPE_CHANNEL_JSON_MESSAGE = 4;
+    public static final int MESSAGE_TYPE_SEND_PING_TO_SERVER_JSON_MESSAGE = 5;
+    public static final int MESSAGE_TYPE_SEND_REQUEST_TO_SERVER_JSON_MESSAGE = 6;
+
     public static final String ADC_TYPE = "ADCType";
     public static final String ACCOUNT = "account";
     public static final String CHANNEL_ID = "channelId";
     public static final String MESSAGE = "message";
+    private static final String REQUEST_ID = "requestId";
 
     private AgoraAPIOnlySignal mSignalInstance;
 
@@ -148,6 +155,12 @@ public class AgoraMessageTubeKit {
                     try {
                         JSONObject jsonObject = new JSONObject(s1);
                         String adcType = jsonObject.getString(ADC_TYPE);
+
+                        if (TextUtils.equals(adcType, "" + MESSAGE_TYPE_PEER_TO_PEER_RECEIVE_COM_MSG_SUCCESS)) {
+                            mtkCallback.onMessageSendSuccess();
+                            return;
+                        }
+
                         String account = jsonObject.getString(ACCOUNT);
                         String message = jsonObject.getString(MESSAGE);
                         mtkCallback.onMarkedMessageInstantReceive(s, i, message);
@@ -262,7 +275,7 @@ public class AgoraMessageTubeKit {
         mSignalInstance.login2(mAppId, account, token, UID, DEVICE_ID, retry_time_in_s, retry_count);
     }
 
-    public void logout(){
+    public void logout() {
         mSignalInstance.logout();
     }
 
@@ -276,14 +289,26 @@ public class AgoraMessageTubeKit {
     }
 
     public void sendInstantMessage(String account, String msg) {
-        mSignalInstance.messageInstantSend(account, UID, msg, MESSAGE_ID);
+        this.sendMarkedInstantMessage(MESSAGE_TYPE_PEER_TO_PEER_COMMON_MESSAGE, account, msg);
     }
 
-    public void sendMarkedInstantMessage(String account, String msg) {
+    public void sendInstantMessageInJson(String account, String msg) {
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(msg);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw new RuntimeException("in parameter must be valid json string " + msg);
+        }
+        this.sendMarkedInstantMessage(MESSAGE_TYPE_PEER_TO_PEER_JSON_MESSAGE, account, jsonObject);
+    }
+
+    private void sendMarkedInstantMessage(int type, String account, Object msg) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ADC_TYPE, MESSAGE_TYPE_PEER_TO_PEER_COMMON_MESSAGE);
+            jsonObject.put(ADC_TYPE, type);
             jsonObject.put(ACCOUNT, mAccount);
+
             jsonObject.put(MESSAGE, msg);
             mSignalInstance.messageInstantSend(account, UID, jsonObject.toString(), MESSAGE_ID);
         } catch (JSONException e) {
@@ -292,17 +317,66 @@ public class AgoraMessageTubeKit {
     }
 
     public void sendChannelMessage(String msg) {
-        mSignalInstance.messageChannelSend(mChannelId, msg, MESSAGE_ID);
+        this.sendMarkedChannelMessage(MESSAGE_TYPE_CHANNEL_COMMON_MESSAGE, msg);
     }
 
-    public void sendMarkedChannelMessage(String msg) {
+    public void sendChannelMessageInJson(String msg) {
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(msg);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw new RuntimeException("in parameter must be valid json string " + msg);
+        }
+        this.sendMarkedChannelMessage(MESSAGE_TYPE_CHANNEL_JSON_MESSAGE, jsonObject);
+    }
+
+    private void sendMarkedChannelMessage(int type, Object msg) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ADC_TYPE, MESSAGE_TYPE_CHANNEL_COMMON_MESSAGE);
+            jsonObject.put(ADC_TYPE, type);
             jsonObject.put(ACCOUNT, mAccount);
             jsonObject.put(CHANNEL_ID, mChannelId);
+
             jsonObject.put(MESSAGE, msg);
+
             mSignalInstance.messageChannelSend(mChannelId, jsonObject.toString(), MESSAGE_ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendPingToServer(String server, String msg) {
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(msg);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw new RuntimeException("in parameter must be valid json string " + msg);
+        }
+
+        try {
+            jsonObject.put(ADC_TYPE, MESSAGE_TYPE_SEND_PING_TO_SERVER_JSON_MESSAGE);
+            jsonObject.put(REQUEST_ID, new Random(System.currentTimeMillis()).nextInt());
+            mSignalInstance.messageInstantSend(server, UID, jsonObject.toString(), MESSAGE_ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendRequestToServer(String server, int requestId, String msg) {
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(msg);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw new RuntimeException("in parameter must be valid json string " + msg);
+        }
+
+        try {
+            jsonObject.put(ADC_TYPE, MESSAGE_TYPE_SEND_REQUEST_TO_SERVER_JSON_MESSAGE);
+            jsonObject.put(REQUEST_ID, requestId);
+            mSignalInstance.messageInstantSend(server, UID, jsonObject.toString(), MESSAGE_ID);
         } catch (JSONException e) {
             e.printStackTrace();
         }

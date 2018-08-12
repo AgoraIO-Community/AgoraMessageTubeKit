@@ -39,6 +39,8 @@ public interface MTKCallback {
     // onMessageSendSuccess(String messageID), 消息已发送成功回调
     void onMessageSendSuccess(String messageID);
 
+    void onMessageSendSuccess();
+
     // onMessageSendError(String messageID,int ecode), 消息发送失败回调
     void onMessageSendError(String messageID, int ecode);
 

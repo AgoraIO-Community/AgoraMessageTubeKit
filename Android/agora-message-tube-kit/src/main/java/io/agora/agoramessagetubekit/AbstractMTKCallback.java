@@ -73,6 +73,11 @@ public abstract class AbstractMTKCallback implements MTKCallback {
     }
 
     @Override
+    public void onMessageSendSuccess() {
+
+    }
+
+    @Override
     public void onError(String name, int ecode, String desc) {
 
     }
