@@ -8,7 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -49,17 +49,17 @@ public class AgoraMessageTubeKit {
 
     private String mChannelId;
 
-    private List<MTKCallback> mMtkCallbacks;
+    private CopyOnWriteArrayList<MTKCallback> mMtkCallbacks;
 
     public AgoraMessageTubeKit(Context context, String mAppId) {
         this.mContext = new WeakReference<>(context);
         this.mAppId = mAppId;
         this.mSignalInstance = AgoraAPIOnlySignal.getInstance(context, mAppId);
-        this.mMtkCallbacks = new ArrayList<>();
+        this.mMtkCallbacks = new CopyOnWriteArrayList<>();
         registerCallback(mMtkCallbacks);
     }
 
-    private void registerCallback(final List<MTKCallback> mtkCallbacks) {
+    private void registerCallback(final CopyOnWriteArrayList<MTKCallback> mtkCallbacks) {
         if (mtkCallbacks == null) {
             throw new RuntimeException("callbacks should not be null");
         }
@@ -67,7 +67,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onLoginSuccess(int i, int i1) {
-                super.onLoginSuccess(i, i1);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onLoginSuccess(i, i1);
@@ -76,7 +75,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onLoginFailed(int i) {
-                super.onLoginFailed(i);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onLoginFailed(i);
@@ -85,7 +83,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onChannelJoined(String s) {
-                super.onChannelJoined(s);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onChannelJoined(s);
@@ -94,7 +91,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onChannelJoinFailed(String s, int i) {
-                super.onChannelJoinFailed(s, i);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onChannelJoinFailed(s, i);
@@ -103,7 +99,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onChannelLeaved(String s, int i) {
-                super.onChannelLeaved(s, i);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onChannelLeaved(s, i);
@@ -112,7 +107,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onLogout(int i) {
-                super.onLogout(i);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onLogout(i);
@@ -121,7 +115,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onChannelUserJoined(String s, int i) {
-                super.onChannelUserJoined(s, i);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onChannelUserJoined(s, i);
@@ -130,7 +123,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onChannelUserLeaved(String s, int i) {
-                super.onChannelUserLeaved(s, i);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onChannelUserLeaved(s, i);
@@ -139,7 +131,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onMessageSendSuccess(String s) {
-                super.onMessageSendSuccess(s);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onMessageSendSuccess(s);
@@ -148,7 +139,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onMessageInstantReceive(String s, int i, String s1) {
-                super.onMessageInstantReceive(s, i, s1);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     MTKCallback mtkCallback = iterator.next();
@@ -173,7 +163,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onMessageChannelReceive(String s, String s1, int i, String s2) {
-                super.onMessageChannelReceive(s, s1, i, s2);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     MTKCallback mtkCallback = iterator.next();
@@ -193,7 +182,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onMessageSendError(String s, int i) {
-                super.onMessageSendError(s, i);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onMessageSendError(s, i);
@@ -202,7 +190,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onError(String s, int i, String s1) {
-                super.onError(s, i, s1);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onError(s, i, s1);
@@ -211,7 +198,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onReconnecting(int i) {
-                super.onReconnecting(i);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onReconnecting(i);
@@ -220,7 +206,6 @@ public class AgoraMessageTubeKit {
 
             @Override
             public void onLog(String s) {
-                super.onLog(s);
                 Iterator<MTKCallback> iterator = mtkCallbacks.iterator();
                 while (iterator.hasNext()) {
                     iterator.next().onLog(s);
